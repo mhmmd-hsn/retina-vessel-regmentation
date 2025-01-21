@@ -24,6 +24,21 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 def read_image(path):
+    """
+    Reads and preprocesses an image from the specified file path.
+
+    This function decodes the file path, reads the image in color mode,
+    applies CLAHE and bilateral filtering for contrast enhancement and 
+    noise reduction, normalizes the image to a [0, 1] range, and converts 
+    it to a float32 numpy array.
+
+    Parameters:
+        path (str): The file path to the image to be read and processed.
+
+    Returns:
+        numpy.ndarray: The preprocessed image as a float32 array.
+    """
+
     path = path.decode()
     x = cv2.imread(path, cv2.IMREAD_COLOR)
     x = clahe_3d(x,50) 
@@ -43,6 +58,25 @@ def read_mask(path):
     return x
 
 def tf_parse(x, y):
+    """
+    Reads and preprocesses a training image and its corresponding mask.
+
+    This function decodes the file paths, reads the image and mask in color mode
+    and grayscale mode respectively, applies CLAHE and bilateral filtering for
+    contrast enhancement and noise reduction, normalizes the image to a [0, 1]
+    range, and converts both the image and mask to float32 numpy arrays.
+
+    Parameters:
+        x (tf.string): The file path to the image to be read and processed.
+        y (tf.string): The file path to the mask to be read and processed.
+
+    Returns:
+        A tuple of two tf.float32 tensors. The first tensor contains the
+        preprocessed image and the second tensor contains the preprocessed mask.
+
+    Notes:
+        The output image and mask are of size (H, W, 3) and (H, W, 1) respectively.
+    """
     def _parse(x, y):
         x = read_image(x)
         y = read_mask(y)
@@ -54,6 +88,17 @@ def tf_parse(x, y):
     return x, y
 
 def tf_dataset(X, Y, batch_size=2):
+    """
+    Creates a tf.data.Dataset from the given lists of image and mask file paths.
+
+    Parameters:
+        X (list[str]): List of file paths to the images.
+        Y (list[str]): List of file paths to the masks.
+        batch_size (int): The batch size of the dataset. Defaults to 2.
+
+    Returns:
+        A tf.data.Dataset containing the preprocessed images and masks.
+    """
     dataset = tf.data.Dataset.from_tensor_slices((X, Y))
     dataset = dataset.map(tf_parse)
     dataset = dataset.batch(batch_size)

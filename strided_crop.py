@@ -10,6 +10,19 @@ augment_list = ["horiz_", "vert_", "griddist_", "optdist_"]
 
 def strided_crop(img, label, height, width, name, stride, directories):
 
+    """
+    Performs strided cropping on the input image and label and saves them as separate image files.
+
+    Parameters:
+        img (numpy.ndarray): The input image to be cropped and processed.
+        label (numpy.ndarray): The input label image to be cropped and processed.
+        height (int): The height of each crop.
+        width (int): The width of each crop.
+        name (str): The name of the image without the extension (to be used for saving the files).
+        stride (int): The stride or step size for cropping.
+        directories (list): A list of directories for saving the images and labels.
+    """
+    
     max_x = int(((img.shape[0]-height)/stride)+1)
     max_y = int(((img.shape[1]-width)/stride)+1)
     max_crops = (max_x)*(max_y)
@@ -27,6 +40,22 @@ def strided_crop(img, label, height, width, name, stride, directories):
                     i = i + 1
 
 def patching(images_path, input_dim, stride, data, augment):  
+    """
+    Processes and crops images and their corresponding labels, with optional augmentation, 
+    and saves the crops into specified directories.
+
+    Parameters:
+        images_path (list[str]): List of file paths to the images.
+        input_dim (int): The dimension for each square crop.
+        stride (int): The stride or step size for cropping.
+        data (str): The data type (e.g., 'train') used to create directory paths.
+        augment (bool): If True, apply augmentation to the images and labels before cropping.
+
+    This function creates necessary directories for saving crops, extracts image names,
+    and for each image, reads the image and label, applies augmentation if specified, 
+    performs strided cropping, and saves the resulting crops in the appropriate directories.
+    """
+
     directories = [f'Crops',f'Crops/{data}/image',f'Crops/{data}/mask']
     for directory in directories:
         if not os.path.exists(directory):

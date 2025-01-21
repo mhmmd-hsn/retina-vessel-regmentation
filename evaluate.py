@@ -39,6 +39,25 @@ def normalize_pred(img):
     return y_pred
 
 def strided_crop(img, img_h,img_w,height, width,stride=1):
+    """
+    Performs strided cropping on the input image and applies prediction on each crop.
+
+    This function divides the input image into smaller overlapping crops based on the specified
+    height, width, and stride. For each crop, a prediction is made, and the predicted result 
+    is placed back into the corresponding location in the output image.
+
+    Parameters:
+        img (numpy.ndarray): The input image to be cropped and processed.
+        img_h (int): The height of the output image.
+        img_w (int): The width of the output image.
+        height (int): The height of each crop.
+        width (int): The width of each crop.
+        stride (int, optional): The stride or step size for cropping. Defaults to 1.
+
+    Returns:
+        numpy.ndarray: An image of shape (img_h, img_w) with predictions for each crop.
+    """
+
     out_image = np.zeros((img_h, img_w),dtype=np.int32)
     max_x = int(((img.shape[0]-height)/stride)+1)
     max_y = int(((img.shape[1]-width)/stride)+1)

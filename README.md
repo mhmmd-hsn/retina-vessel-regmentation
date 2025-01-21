@@ -10,7 +10,7 @@ This project focuses on the segmentation of retinal vessels from fundus images u
 - **Preprocessing Techniques:**
   - Normalization
   - Patching
-  - Picture target selection
+  - Patch target selection
   - CLAHE (Contrast Limited Adaptive Histogram Equalization)
 - **Implemented Architectures:**
   1. **Basic Unet:** A classic Unet architecture for biomedical segmentation.
@@ -72,28 +72,6 @@ Evaluate the model on the test set using:
 python evaluate.py --model [model_name] --weights [path_to_weights]
 ```
 
-### Prediction
-Generate segmentations for new images using:
-```bash
-python predict.py --model [model_name] --input [path_to_input_image] --output [path_to_output_image]
-```
-
----
-
-## Directory Structure
-```
-retina-vessel-segmentation/
-├── data/                # Dataset folder
-├── models/              # Model architectures
-├── preprocess/          # Preprocessing scripts
-├── postprocess/         # Post-processing scripts
-├── train.py             # Training script
-├── evaluate.py          # Evaluation script
-├── predict.py           # Prediction script
-├── requirements.txt     # Dependencies
-└── README.md            # Project documentation
-```
-
 ---
 
 ## Results
@@ -105,40 +83,3 @@ The models have been evaluated using the DRIVE dataset, and the performance metr
 | Unet with DenseNet121  | XX.XX    | XX.XX     | XX.XX  | XX.XX    | XX.XX |
 
 ---
-
-## Contributing
-Contributions are welcome! If you'd like to improve the code or add new features:
-1. Fork the repository.
-2. Create a new branch:
-   ```bash
-   git checkout -b feature-name
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m 'Add new feature'
-   ```
-4. Push to the branch:
-   ```bash
-   git push origin feature-name
-   ```
-5. Open a Pull Request.
-
----
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## Acknowledgments
-- The DRIVE dataset contributors for providing the dataset.
-- TensorFlow and OpenCV communities for their amazing tools.
-
----
-
-## Contact
-For any questions or suggestions, feel free to contact:
-- **Name:** [Your Name]
-- **Email:** [your.email@example.com]
-- **GitHub:** [yourusername](https://github.com/yourusername)
-

@@ -13,6 +13,19 @@ def create_dir(path):
 
 
 def clahe_3d (img,gs): 
+    """
+    Applies Contrast Limited Adaptive Histogram Equalization (CLAHE) to a 3D image.
+
+    This function converts an RGB image to the Lab color space, applies CLAHE 
+    to the L channel to enhance contrast, and then converts the image back to RGB.
+
+    Parameters:
+        img (numpy.ndarray): Input RGB image.
+        gs (int): Grid size for the CLAHE algorithm.
+
+    Returns:
+        numpy.ndarray: The contrast-enhanced RGB image.
+    """
     img = cv2.cvtColor(img, cv2.COLOR_RGB2Lab) 
     clahe = cv2.createCLAHE(clipLimit=8,tileGridSize=(gs,gs)) 
     img[:,:,0] = clahe.apply(img[:,:,0]) 
@@ -25,6 +38,22 @@ def shuffling(x, y):
 
 
 def augment_data(image, mask):
+    """
+    Applies the following data augmentations to the given image and mask:
+
+    1. Horizontal flip
+    2. Vertical flip
+    3. Grid distortion
+    4. Optical distortion
+
+    Parameters:
+        image (numpy.ndarray): Input RGB image.
+        mask (numpy.ndarray): Input mask image.
+
+    Returns:
+        A tuple of two lists. The first list contains the augmented images, and
+        the second list contains the corresponding augmented masks.
+    """
     aug = HorizontalFlip(p=1.0)
     augmented = aug(image=image, mask=mask)
     x1 = augmented["image"]
